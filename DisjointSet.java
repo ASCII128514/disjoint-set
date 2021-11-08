@@ -1,29 +1,29 @@
 import java.util.HashMap;
 
-class node {
-  int data;
-  node p;
+class node<T> {
+  T data;
+  node<T> p;
   int rank;
-  node(int data) {
+  node(T data) {
     this.data = data;
     this.p = this;
     this.rank = 0;
   }
 }
 
-public class DisjointSet {
-  private HashMap<Integer, node> nodes;
+public class DisjointSet<T> {
+  private HashMap<T, node<T>> nodes;
 
   DisjointSet() {
-    this.nodes = new HashMap<Integer, node>();
+    this.nodes = new HashMap<T, node<T>>();
   }
 
-  int findSet(int data) {
-    node n = this.nodes.get(data);
+  T findSet(T data) {
+    node<T> n = this.nodes.get(data);
     if (n == null) {
-      return -1;
+      return null;
     }
-    node p = n;
+    node<T> p = n;
 
     while (p != p.p) {
       p.p = this.nodes.get(findSet(p.p.data));
@@ -31,23 +31,23 @@ public class DisjointSet {
     return p.data;
   }
 
-  boolean makeSet(int data) {
+  boolean makeSet(T data) {
     if (this.nodes.containsKey(data)) {
       return false;
     }
-    node n = new node(data);
+    node<T> n = new node<T>(data);
     this.nodes.put(data, n);
     return true;
   }
 
-  boolean union(int data1, int data2) {
-    node n1 = this.nodes.get(findSet(data1));
-    node n2 = this.nodes.get(findSet(data2));
+  boolean union(T data1, T data2) {
+    node<T> n1 = this.nodes.get(findSet(data1));
+    node<T> n2 = this.nodes.get(findSet(data2));
     if (n1 == null || n2 == null) {
       return false;
     }
-    node p1 = n1;
-    node p2 = n2;
+    node<T> p1 = n1;
+    node<T> p2 = n2;
 
     if (p1 == p2) {
       return false;
