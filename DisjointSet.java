@@ -20,22 +20,6 @@ import java.util.HashMap;
 
 
 /*
-node class. The basic unit of our disjointSet.
-Contains data, parent node p, and a integer rank.
-*/
-class node<T> {
-  T data;
-  node<T> p;
-  int rank;
-
-  node(T data) {
-    this.data = data;
-    this.p = this;
-    this.rank = 0;
-  }
-}
-
-/*
 DisjointSet class. Uses hashmap to store nodes.
 */
 public class DisjointSet<T> {
@@ -65,11 +49,11 @@ public class DisjointSet<T> {
     }
     node<T> p = n;
     // recursion to find the representative
-    while (p != p.p) {
+    if (p != p.p) {
       //path compression so that each node on the find path point to the root.
       p.p = this.nodes.get(findSet(p.p.data));
     }
-    return p.data;
+    return p.p.data;
   }
 
 
@@ -127,6 +111,23 @@ public class DisjointSet<T> {
       p2.rank++;
     }
 
+
     return true;
+  }
+}
+
+/*
+ * node class. The basic unit of our disjointSet. Contains data, parent node p,
+ * and a integer rank.
+ */
+class node<T> {
+  T data;
+  node<T> p;
+  int rank;
+
+  node(T data) {
+    this.data = data;
+    this.p = this;
+    this.rank = 0;
   }
 }
